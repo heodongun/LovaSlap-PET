@@ -15,16 +15,28 @@ jobs:
         run: swift --version
 
       - name: Build
-        run: swift build
+        run: swift build --product MiyeonSlap && swift build --product LovaSlapPET
 
-      - name: Run self-check
+      - name: Run MiyeonSlap self-check
         run: swift run MiyeonSlap --self-check
 
-      - name: Build app bundle
+      - name: Run LovaSlapPET self-check
+        run: swift run LovaSlapPET --self-check
+
+      - name: Build MiyeonSlap bundle
         run: zsh scripts/build_app_bundle.sh
 
-      - name: Build release zip
+      - name: Build LovaSlap-PET bundle
+        run: zsh scripts/build_lovaslap_pet_app_bundle.sh
+
+      - name: Build MiyeonSlap release zip
         run: zsh scripts/package_release_zip.sh
 
-      - name: Build release dmg
+      - name: Build MiyeonSlap release dmg
         run: zsh scripts/package_release_dmg.sh
+
+      - name: Build LovaSlap-PET release zip
+        run: zsh scripts/package_lovaslap_pet_zip.sh
+
+      - name: Build LovaSlap-PET release dmg
+        run: zsh scripts/package_lovaslap_pet_dmg.sh

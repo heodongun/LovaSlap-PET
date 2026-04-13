@@ -11,12 +11,14 @@ swift build
 swift run MiyeonSlap --self-check
 zsh scripts/build_app_bundle.sh
 zsh scripts/package_release_zip.sh
+zsh scripts/package_release_dmg.sh
 ```
 
 ## 확인 항목
 
 - `MiyeonSlap.app` 생성 여부
 - `dist/MiyeonSlap.zip` 생성 여부
+- `dist/MiyeonSlap.dmg` 생성 여부
 - README의 설치/실행 명령과 실제 산출물이 일치하는지
 - `Casks/lovaslap.rb`의 URL과 홈페이지만 새 GitHub 저장소를 가리키는지
 

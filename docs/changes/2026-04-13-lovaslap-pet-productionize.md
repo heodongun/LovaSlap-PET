@@ -17,6 +17,7 @@
 - 프리셋 카탈로그와 프리셋별 idle 프레임 추가
 - 클릭 slap 복원 및 물리 slap 공통 파이프라인 유지
 - 실행 파일 내장 self-check 추가
+- 릴리스용 DMG 패키징 추가
 - README / AGENTS / 아키텍처 / 릴리스 문서 추가
 - GitHub Actions CI 추가
 
@@ -38,6 +39,7 @@
 - `swift run MiyeonSlap --self-check`
 - `zsh scripts/build_app_bundle.sh`
 - `zsh scripts/package_release_zip.sh`
+- `zsh scripts/package_release_dmg.sh`
 
 ## 남아 있는 한계
 

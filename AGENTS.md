@@ -12,6 +12,7 @@ swift run
 swift run MiyeonSlap --self-check
 zsh scripts/build_app_bundle.sh
 zsh scripts/package_release_zip.sh
+zsh scripts/package_release_dmg.sh
 ```
 
 ## 설치 / 실행 / 테스트 명령
@@ -21,6 +22,7 @@ zsh scripts/package_release_zip.sh
 - 자동 회귀 점검: `swift run MiyeonSlap --self-check`
 - 앱 번들 생성: `zsh scripts/build_app_bundle.sh`
 - 릴리스 ZIP 생성: `zsh scripts/package_release_zip.sh`
+- 릴리스 DMG 생성: `zsh scripts/package_release_dmg.sh`
 
 ## 기본 작업 순서
 
@@ -94,6 +96,7 @@ zsh scripts/package_release_zip.sh
 - `swift run MiyeonSlap --self-check`
 - 필요 시 `zsh scripts/build_app_bundle.sh`
 - 필요 시 `zsh scripts/package_release_zip.sh`
+- 필요 시 `zsh scripts/package_release_dmg.sh`
 - 문서 갱신 여부 확인
 
 ## 절대 하면 안 되는 것

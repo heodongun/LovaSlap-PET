@@ -22,3 +22,9 @@ jobs:
 
       - name: Build app bundle
         run: zsh scripts/build_app_bundle.sh
+
+      - name: Build release zip
+        run: zsh scripts/package_release_zip.sh
+
+      - name: Build release dmg
+        run: zsh scripts/package_release_dmg.sh

@@ -30,10 +30,9 @@ enum ScenePalette {
 
 enum SceneMetrics {
     static let pixel: CGFloat = 8
-    static let outerPadding: CGFloat = 24
-    static let dialogueHeight: CGFloat = 152
-    static let dialogueCorner: CGFloat = 16
-    static let borderWidth: CGFloat = 2
+    static let petWindowSize = NSSize(width: 280, height: 320)
+    static let petCanvasSize = NSSize(width: 220, height: 286)
+    static let petBottomPadding: CGFloat = 12
 }
 
 enum SceneTypography {

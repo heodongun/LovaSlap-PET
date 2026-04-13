@@ -1,11 +1,11 @@
 cask "lovaslap" do
   version "0.1.0"
-  sha256 "633accf5e98bad8823a9aaa34dd70199494c636d5688c1cabf1db5e0e836565e"
+  sha256 "f7873fa4a10a72eadfe0b17bb194b2b2d8af983319a04bea23103a47fd9bc268"
 
-  url "https://github.com/heodongun/LovaSlap/releases/download/v#{version}/MiyeonSlap.zip"
+  url "https://github.com/heodongun/LovaSlap-PET/releases/download/v#{version}/MiyeonSlap.dmg"
   name "MiyeonSlap"
-  desc "Cute AppKit pixel slap-reactive mini visual novel"
-  homepage "https://github.com/heodongun/LovaSlap"
+  desc "Pixel-art desktop pet overlay for macOS"
+  homepage "https://github.com/heodongun/LovaSlap-PET"
 
   app "MiyeonSlap.app"
 end

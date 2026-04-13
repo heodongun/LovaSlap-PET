@@ -24,9 +24,11 @@ final class PrivateSPUSlapDetector: NSObject, PhysicalSlapDetecting {
         static let reportBufferSize = 4096
         static let reportIntervalMicros: Int32 = 1000
         static let accelScale = 65536.0
-        static let decimation = 8
-        static let impulseThreshold = 1.35
-        static let quietPeriod: TimeInterval = 0.35
+        static let decimation = 2
+        static let impulseThreshold = 0.12
+        static let quietPeriod: TimeInterval = 0.22
+        static let baselineSmoothing = 0.08
+        static let warmupSamples = 24
     }
 
     private var devices: [IOHIDDevice] = []
@@ -34,6 +36,8 @@ final class PrivateSPUSlapDetector: NSObject, PhysicalSlapDetecting {
     private var callbackContext: UnsafeMutableRawPointer?
     private var decimationCounter = 0
     private var lastTriggerAt: TimeInterval = 0
+    private var baselineMagnitude: Double?
+    private var warmupSampleCount = 0
     private var started = false
 
     deinit {
@@ -64,6 +68,10 @@ final class PrivateSPUSlapDetector: NSObject, PhysicalSlapDetecting {
         reportBuffers.forEach { $0.deallocate() }
         reportBuffers.removeAll()
         callbackContext = nil
+        baselineMagnitude = nil
+        warmupSampleCount = 0
+        decimationCounter = 0
+        lastTriggerAt = 0
     }
 
     private func wakeSPUDrivers() {
@@ -181,7 +189,19 @@ final class PrivateSPUSlapDetector: NSObject, PhysicalSlapDetecting {
         let y = Double(yRaw) / Constants.accelScale
         let z = Double(zRaw) / Constants.accelScale
         let magnitude = sqrt((x * x) + (y * y) + (z * z))
-        let impulse = abs(magnitude - 1.0)
+
+        if let existingBaseline = baselineMagnitude {
+            baselineMagnitude = existingBaseline + ((magnitude - existingBaseline) * Constants.baselineSmoothing)
+        } else {
+            baselineMagnitude = magnitude
+        }
+
+        warmupSampleCount += 1
+        guard warmupSampleCount > Constants.warmupSamples, let baselineMagnitude else {
+            return
+        }
+
+        let impulse = abs(magnitude - baselineMagnitude)
 
         let now = ProcessInfo.processInfo.systemUptime
         guard impulse >= Constants.impulseThreshold else { return }

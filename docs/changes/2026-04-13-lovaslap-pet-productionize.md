@@ -1,55 +1,51 @@
-# 2026-04-13 - LovaSlap-PET productionize
+# 2026-04-13 - MiyeonSlap / LovaSlap-PET split
 
 ## 배경
 
-기존 저장소는 프로토타입 성격의 고정 장면 앱과 문서 구성이었고, 배포/설명/검증 측면에서 프로덕션 기준에 미치지 못했습니다.
+기존 저장소는 `MiyeonSlap` 단일 app identity 위에 `LovaSlap-PET` public 이름을 덧씌우는 방식이라, 기존 앱을 유지하면서 새 앱을 따로 배포하기 어려웠습니다.
 
 ## 문제 또는 목표
 
-- 데스크톱 위에 바로 띄워지는 형태로 전환
-- 내장 프리셋 애니메이션 제공
-- slap 시 일시적인 반응 이미지/포즈 후 기본 모션 복귀
-- 새 GitHub 저장소 기준으로 문서와 배포 경로 정리
+- 기존 `MiyeonSlap` 앱은 그대로 둔다
+- 새로운 앱은 별도 product / 별도 bundle / 별도 artifact로 다운로드되게 한다
+- executable rename 기반 배포를 실제 2-app 구조로 분리한다
 
 ## 변경 내용
 
-- 투명 오버레이 창 기반 데스크톱 펫 구조로 전환
-- 프리셋 카탈로그와 프리셋별 idle 프레임 추가
-- 클릭 slap 복원 및 물리 slap 공통 파이프라인 유지
-- 실행 파일 내장 self-check 추가
-- 릴리스용 DMG 패키징 추가
-- 공개 배포 앱 이름을 `MiyeonSlap`에서 `LovaSlap-PET`으로 변경
-- README / AGENTS / 아키텍처 / 릴리스 문서 추가
-- GitHub Actions CI 추가
+- `Package.swift`에 `MiyeonSlap`와 `LovaSlapPET` 두 executable product를 정의
+- `Sources/MiyeonSlap/`는 기존 앱으로 복원
+- `Sources/LovaSlapPET/`에 새 앱 런타임 분리
+- MiyeonSlap / LovaSlap-PET 각각의 bundle/zip/dmg 스크립트 분리
+- 문서/런북/에이전트 규칙을 dual-app 기준으로 갱신
 
 ## 설계 이유
 
-- 외부 에셋/의존성 없이도 유지보수 가능한 데스크톱 펫 구조를 유지하기 위해
-- SwiftPM 테스트 프레임워크 사용 불가 환경에서도 자동 검증을 확보하기 위해
+- 기존 앱을 덮어쓰지 않고 유지하기 위해
+- 새 앱을 별도 다운로드 표면으로 만들기 위해
+- product identity와 public bundle identity가 섞이지 않도록 하기 위해
 
 ## 영향 범위
 
-- 창 동작
-- 렌더링 루프
-- slap 반응 상태 전이
-- 문서 / CI / 배포 메타데이터
+- Swift package 구조
+- source layout
+- bundle / zip / dmg packaging
+- 문서 / 배포 표면
 
 ## 검증 방법
 
-- `swift build`
+- `swift build --product MiyeonSlap`
+- `swift build --product LovaSlapPET`
 - `swift run MiyeonSlap --self-check`
+- `swift run LovaSlapPET --self-check`
 - `zsh scripts/build_app_bundle.sh`
-- `zsh scripts/package_release_zip.sh`
-- `zsh scripts/package_release_dmg.sh`
+- `zsh scripts/build_lovaslap_pet_app_bundle.sh`
 
 ## 남아 있는 한계
 
-- 프리셋 선택 UI는 아직 없음
-- true wallpaper embedding은 아님
-- 물리 slap 감도는 기기마다 조정이 필요할 수 있음
+- 새 앱과 기존 앱 사이에 일부 코드 중복이 존재함
+- `LovaSlap-PET`은 여전히 true wallpaper embedding은 아님
 
 ## 후속 과제
 
-- 프리셋 수 확대
-- 물리 slap 감도 설정
-- 릴리스 자동화 확장
+- 두 앱 공통 런타임 추출 여부 재검토
+- legacy/new app의 개별 release automation 강화

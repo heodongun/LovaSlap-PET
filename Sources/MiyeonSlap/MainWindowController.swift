@@ -2,13 +2,10 @@ import AppKit
 
 @MainActor
 final class MainWindowController: NSWindowController {
-    private let sceneViewController: SceneViewController
-
-    init(pet: PetInstance) {
-        let metrics = pet.asset.layoutMetrics
-        sceneViewController = SceneViewController(asset: pet.asset, metrics: metrics)
+    convenience init() {
+        let windowSize = SceneMetrics.petWindowSize
         let window = OverlayPetWindow(
-            contentRect: NSRect(origin: pet.origin, size: metrics.windowSize),
+            contentRect: NSRect(origin: .zero, size: windowSize),
             styleMask: [.borderless],
             backing: .buffered,
             defer: false
@@ -20,18 +17,25 @@ final class MainWindowController: NSWindowController {
         window.level = .floating
         window.collectionBehavior = [.canJoinAllSpaces, .stationary, .fullScreenAuxiliary]
         window.isReleasedWhenClosed = false
-        window.contentViewController = sceneViewController
+        window.contentViewController = SceneViewController()
+        Self.position(window: window, size: windowSize)
 
-        super.init(window: window)
+        self.init(window: window)
     }
 
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        nil
-    }
+    private static func position(window: NSWindow, size: NSSize) {
+        guard let screen = NSScreen.main else {
+            window.setFrameOrigin(NSPoint(x: 80, y: 80))
+            return
+        }
 
-    func triggerPhysicalSlap() {
-        sceneViewController.triggerPhysicalSlap()
+        let visibleFrame = screen.visibleFrame
+        let origin = NSPoint(
+            x: visibleFrame.maxX - size.width - 36,
+            y: visibleFrame.minY + 24
+        )
+
+        window.setFrameOrigin(origin)
     }
 }
 
@@ -42,27 +46,19 @@ final class OverlayPetWindow: NSWindow {
 
 @MainActor
 final class SceneViewController: NSViewController {
-    private let sceneView: GameSceneView
-
-    init(asset: PetAsset, metrics: PetLayoutMetrics) {
-        sceneView = GameSceneView(
-            frame: NSRect(origin: .zero, size: metrics.windowSize),
-            asset: asset,
-            metrics: metrics
-        )
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        nil
-    }
+    private let sceneView = GameSceneView(frame: NSRect(origin: .zero, size: SceneMetrics.petWindowSize))
+    private let physicalSlapDetector = PrivateSPUSlapDetector()
 
     override func loadView() {
         view = sceneView
     }
 
-    func triggerPhysicalSlap() {
-        sceneView.triggerPhysicalSlap()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        physicalSlapDetector.onHit = { [weak self] in
+            self?.sceneView.triggerPhysicalSlap()
+        }
+        physicalSlapDetector.start()
     }
 }

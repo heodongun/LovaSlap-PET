@@ -51,7 +51,7 @@ open LovaSlap-PET.app
 
 ```bash
 brew tap heodongun/LovaSlap-PET https://github.com/heodongun/LovaSlap-PET
-brew install --cask lovaslap
+brew install --cask heodongun/lovaslap-pet/lovaslap
 ```
 
 ## 실행 방법

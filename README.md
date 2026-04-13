@@ -48,7 +48,8 @@ open MiyeonSlap.app
 ### 3) Homebrew로 설치
 
 ```bash
-brew install --cask https://raw.githubusercontent.com/heodongun/LovaSlap-PET/main/Casks/lovaslap.rb
+brew tap heodongun/LovaSlap-PET https://github.com/heodongun/LovaSlap-PET
+brew install --cask lovaslap
 ```
 
 ## 실행 방법

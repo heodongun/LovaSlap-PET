@@ -18,6 +18,7 @@
 - 클릭 slap 복원 및 물리 slap 공통 파이프라인 유지
 - 실행 파일 내장 self-check 추가
 - 릴리스용 DMG 패키징 추가
+- 공개 배포 앱 이름을 `MiyeonSlap`에서 `LovaSlap-PET`으로 변경
 - README / AGENTS / 아키텍처 / 릴리스 문서 추가
 - GitHub Actions CI 추가
 

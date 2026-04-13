@@ -1,6 +1,6 @@
 cask "lovaslap" do
-  version "0.1.1"
-  sha256 "4f280d5abfb2750c9c819ab78df5011986cb2476f3bd6237909aad00c7c12e8c"
+  version "0.2.0"
+  sha256 "a663846b4910f7bc8adc24064472490e422fc34b052b7b8057310df61f76a749"
 
   depends_on macos: ">= :ventura"
 

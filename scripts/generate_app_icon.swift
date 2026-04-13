@@ -23,8 +23,8 @@ struct Palette {
 
 let iconArt = [
     "................",
-    ".....PPPP.......",
-    "....PPPPPP......",
+    ".....PP.PP......",
+    "....PPPPPPP.....",
     "...HHHHHHHH.....",
     "..HHHSSSSHHH....",
     "..HHSSSSSSHH..O.",

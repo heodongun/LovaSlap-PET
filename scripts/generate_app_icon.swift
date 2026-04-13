@@ -42,9 +42,9 @@ let iconArt = [
 
 let rootURL = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
 let assetsURL = rootURL.appendingPathComponent("Assets/AppIcon", isDirectory: true)
-let iconsetURL = assetsURL.appendingPathComponent("MiyeonSlap.iconset", isDirectory: true)
-let icnsURL = assetsURL.appendingPathComponent("MiyeonSlap.icns")
-let masterURL = assetsURL.appendingPathComponent("MiyeonSlap-master.png")
+let iconsetURL = assetsURL.appendingPathComponent("LovaSlap-PET.iconset", isDirectory: true)
+let icnsURL = assetsURL.appendingPathComponent("LovaSlap-PET.icns")
+let masterURL = assetsURL.appendingPathComponent("LovaSlap-PET-master.png")
 
 let outputs: [(name: String, size: CGFloat)] = [
     ("icon_16x16.png", 16),
@@ -269,7 +269,7 @@ func writePNG(image: NSImage, to url: URL) throws {
         let bitmap = NSBitmapImageRep(data: tiffData),
         let pngData = bitmap.representation(using: .png, properties: [:])
     else {
-        throw NSError(domain: "MiyeonSlapIcon", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to encode PNG"]) 
+        throw NSError(domain: "LovaSlapPETIcon", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to encode PNG"]) 
     }
 
     try pngData.write(to: url)
@@ -284,7 +284,7 @@ func runIconutil(iconsetURL: URL, icnsURL: URL) throws {
 
     guard process.terminationStatus == 0 else {
         throw NSError(
-            domain: "MiyeonSlapIcon",
+            domain: "LovaSlapPETIcon",
             code: Int(process.terminationStatus),
             userInfo: [NSLocalizedDescriptionKey: "iconutil failed with status \(process.terminationStatus)"]
         )

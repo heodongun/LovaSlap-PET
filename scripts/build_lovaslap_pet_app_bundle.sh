@@ -2,14 +2,14 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-EXECUTABLE_NAME="MiyeonSlap"
-PUBLIC_APP_NAME="MiyeonSlap"
+EXECUTABLE_NAME="LovaSlapPET"
+PUBLIC_APP_NAME="LovaSlap-PET"
 BUILD_DIR="$ROOT_DIR/.build/debug"
 BUNDLE_DIR="$ROOT_DIR/$PUBLIC_APP_NAME.app"
 CONTENTS_DIR="$BUNDLE_DIR/Contents"
 MACOS_DIR="$CONTENTS_DIR/MacOS"
 RESOURCES_DIR="$CONTENTS_DIR/Resources"
-ICON_PATH="$ROOT_DIR/Assets/AppIcon/MiyeonSlap.icns"
+ICON_PATH="$ROOT_DIR/Assets/AppIcon/LovaSlap-PET.icns"
 
 swift build --package-path "$ROOT_DIR" --product "$EXECUTABLE_NAME"
 
@@ -19,7 +19,7 @@ cp "$BUILD_DIR/$EXECUTABLE_NAME" "$MACOS_DIR/$PUBLIC_APP_NAME"
 chmod +x "$MACOS_DIR/$PUBLIC_APP_NAME"
 
 if [[ -f "$ICON_PATH" ]]; then
-    cp "$ICON_PATH" "$RESOURCES_DIR/MiyeonSlap.icns"
+    cp "$ICON_PATH" "$RESOURCES_DIR/LovaSlap-PET.icns"
 fi
 
 cat > "$CONTENTS_DIR/Info.plist" <<'EOF'
@@ -30,25 +30,27 @@ cat > "$CONTENTS_DIR/Info.plist" <<'EOF'
     <key>CFBundleDevelopmentRegion</key>
     <string>en</string>
     <key>CFBundleExecutable</key>
-    <string>MiyeonSlap</string>
+    <string>LovaSlap-PET</string>
     <key>CFBundleIdentifier</key>
-    <string>com.heodongun.miyeonslap</string>
+    <string>com.heodongun.lovaslappet</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleIconFile</key>
-    <string>MiyeonSlap.icns</string>
+    <string>LovaSlap-PET.icns</string>
     <key>CFBundleDisplayName</key>
-    <string>MiyeonSlap</string>
+    <string>LovaSlap-PET</string>
     <key>CFBundleName</key>
-    <string>MiyeonSlap</string>
+    <string>LovaSlap-PET</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
-    <string>0.1.1</string>
+    <string>0.3.0</string>
     <key>CFBundleVersion</key>
-    <string>2</string>
+    <string>1</string>
     <key>LSMinimumSystemVersion</key>
     <string>13.0</string>
+    <key>LSUIElement</key>
+    <true/>
     <key>NSHighResolutionCapable</key>
     <true/>
     <key>NSPrincipalClass</key>

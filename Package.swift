@@ -10,11 +10,18 @@ let package = Package(
         .executable(
             name: "MiyeonSlap",
             targets: ["MiyeonSlap"]
+        ),
+        .executable(
+            name: "LovaSlapPET",
+            targets: ["LovaSlapPET"]
         )
     ],
     targets: [
         .executableTarget(
             name: "MiyeonSlap"
+        ),
+        .executableTarget(
+            name: "LovaSlapPET"
         )
     ]
 )

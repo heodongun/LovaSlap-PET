@@ -23,6 +23,9 @@ enum SelfCheckRunner {
         try verifyPresetSelection()
         try verifyHitRecovery()
         try verifyRepeatedHitExtendsRecovery()
+        try verifyPetPlacementStaysInsideVisibleFrame()
+        try verifyPetsStoreTracksMultiplePets()
+        try verifyPNGSequenceSorting()
     }
 
     private static func verifyDialogueStopsAtLastLine() throws {
@@ -72,6 +75,56 @@ enum SelfCheckRunner {
         try expect(state.reactionPhase == .idle, "extended recovery should still return to idle")
     }
 
+    private static func verifyPetPlacementStaysInsideVisibleFrame() throws {
+        let visibleFrame = NSRect(x: 0, y: 0, width: 1280, height: 720)
+        let firstOrigin = PetPlacementPlanner.origin(
+            for: 0,
+            windowSize: SceneMetrics.petWindowSize,
+            visibleFrame: visibleFrame
+        )
+        let secondOrigin = PetPlacementPlanner.origin(
+            for: 1,
+            windowSize: SceneMetrics.petWindowSize,
+            visibleFrame: visibleFrame
+        )
+
+        try expect(firstOrigin.x >= visibleFrame.minX, "first pet origin should stay inside the visible frame")
+        try expect(firstOrigin.y >= visibleFrame.minY, "first pet should sit above the screen bottom")
+        try expect(secondOrigin != firstOrigin, "subsequent pets should not reuse the same origin")
+    }
+
+    private static func verifyPetsStoreTracksMultiplePets() throws {
+        let visibleFrame = NSRect(x: 0, y: 0, width: 1280, height: 720)
+        let store = PetsStore()
+
+        let first = store.add(asset: .builtIn(.miyeonClassic), visibleFrame: visibleFrame)
+        _ = store.add(asset: .builtIn(.sunsetPeach), visibleFrame: visibleFrame)
+
+        try expect(store.count == 2, "pets store should hold multiple visible pets")
+
+        _ = store.remove(id: first.id)
+        try expect(store.count == 1, "pets store should support removing individual pets")
+
+        let removed = store.removeAll()
+        try expect(removed.count == 1, "removeAll should return remaining pets")
+        try expect(store.count == 0, "removeAll should empty the store")
+    }
+
+    private static func verifyPNGSequenceSorting() throws {
+        let urls = [
+            URL(fileURLWithPath: "/tmp/frame-10.png"),
+            URL(fileURLWithPath: "/tmp/frame-2.png"),
+            URL(fileURLWithPath: "/tmp/frame-1.PNG"),
+            URL(fileURLWithPath: "/tmp/readme.txt")
+        ]
+        let sortedNames = PNGSequenceFolderLoader.sortFrameURLs(urls).map(\.lastPathComponent)
+
+        try expect(
+            sortedNames == ["frame-1.PNG", "frame-2.png", "frame-10.png"],
+            "PNG frame sorting should keep numeric animation order and ignore non-PNG files"
+        )
+    }
+
     private static func recoveryTime(of phase: ReactionPhase, isApproximately expected: TimeInterval) -> Bool {
         guard case let .hit(recoverAt) = phase else {
             return false
@@ -102,6 +155,6 @@ if SelfCheckRunner.runIfRequested() {
 let app = NSApplication.shared
 let delegate = AppDelegate()
 
-app.setActivationPolicy(.regular)
+app.setActivationPolicy(.accessory)
 app.delegate = delegate
 app.run()

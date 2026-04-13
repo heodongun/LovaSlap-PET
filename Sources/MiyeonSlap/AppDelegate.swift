@@ -1,23 +1,15 @@
 import AppKit
 
-@MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
-    private let petsCoordinator: PetsCoordinator
-
-    override init() {
-        petsCoordinator = PetsCoordinator()
-        super.init()
-    }
+    private var windowController: MainWindowController?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        petsCoordinator.start()
+        windowController = MainWindowController()
+        windowController?.showWindow(nil)
+        NSApp.activate(ignoringOtherApps: true)
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
-        false
-    }
-
-    func applicationWillTerminate(_ notification: Notification) {
-        petsCoordinator.stop()
+        true
     }
 }

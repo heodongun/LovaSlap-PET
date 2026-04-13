@@ -33,6 +33,7 @@ enum SceneMetrics {
     static let petWindowSize = NSSize(width: 280, height: 320)
     static let petCanvasSize = NSSize(width: 220, height: 286)
     static let petBottomPadding: CGFloat = 12
+    static let customPetMaxCanvasSize = NSSize(width: 240, height: 240)
 }
 
 enum SceneTypography {
@@ -58,5 +59,19 @@ extension NSColor {
         let green = CGFloat((hex >> 8) & 0xFF) / 255.0
         let blue = CGFloat(hex & 0xFF) / 255.0
         self.init(calibratedRed: red, green: green, blue: blue, alpha: alpha)
+    }
+}
+
+extension NSSize {
+    func aspectFit(within boundingSize: NSSize) -> NSSize {
+        guard width > 0, height > 0, boundingSize.width > 0, boundingSize.height > 0 else {
+            return .zero
+        }
+
+        let widthRatio = boundingSize.width / width
+        let heightRatio = boundingSize.height / height
+        let scale = min(widthRatio, heightRatio, 1)
+
+        return NSSize(width: floor(width * scale), height: floor(height * scale))
     }
 }

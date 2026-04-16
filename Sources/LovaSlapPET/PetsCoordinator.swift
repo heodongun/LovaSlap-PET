@@ -42,8 +42,8 @@ final class PetsCoordinator: NSObject {
         openPanel.canChooseFiles = false
         openPanel.canChooseDirectories = true
         openPanel.allowsMultipleSelection = false
-        openPanel.prompt = "Add Pet"
-        openPanel.message = "Choose a folder that contains an ordered PNG sequence."
+        openPanel.prompt = "펫 추가"
+        openPanel.message = "정렬된 PNG 시퀀스가 들어 있는 폴더를 선택하세요."
 
         guard openPanel.runModal() == .OK, let folderURL = openPanel.url else {
             return
@@ -137,12 +137,12 @@ final class StatusItemController {
     func rebuildMenu(activePetCount: Int) {
         let menu = NSMenu()
 
-        let titleItem = NSMenuItem(title: "LovaSlap-PET (\(activePetCount))", action: nil, keyEquivalent: "")
+        let titleItem = NSMenuItem(title: "LovaSlap-PET (\(activePetCount)마리)", action: nil, keyEquivalent: "")
         titleItem.isEnabled = false
         menu.addItem(titleItem)
         menu.addItem(.separator())
 
-        let builtInItem = NSMenuItem(title: "Add Built-in Pet", action: nil, keyEquivalent: "")
+        let builtInItem = NSMenuItem(title: "기본 펫 추가", action: nil, keyEquivalent: "")
         let builtInMenu = NSMenu()
         for (index, preset) in PixelPetPreset.builtIns.enumerated() {
             let item = NSMenuItem(title: preset.name, action: #selector(PetsCoordinator.addBuiltInPetFromMenu(_:)), keyEquivalent: "")
@@ -153,27 +153,27 @@ final class StatusItemController {
         menu.addItem(builtInItem)
         menu.setSubmenu(builtInMenu, for: builtInItem)
 
-        let addSequenceItem = NSMenuItem(title: "Add PNG Sequence Folder…", action: #selector(PetsCoordinator.addPNGSequencePet(_:)), keyEquivalent: "")
+        let addSequenceItem = NSMenuItem(title: "PNG 시퀀스 폴더 추가…", action: #selector(PetsCoordinator.addPNGSequencePet(_:)), keyEquivalent: "")
         addSequenceItem.target = target
         menu.addItem(addSequenceItem)
         menu.addItem(.separator())
 
-        let removeLastItem = NSMenuItem(title: "Remove Last Pet", action: #selector(PetsCoordinator.removeLastPet(_:)), keyEquivalent: "")
+        let removeLastItem = NSMenuItem(title: "마지막 펫 제거", action: #selector(PetsCoordinator.removeLastPet(_:)), keyEquivalent: "")
         removeLastItem.target = target
         removeLastItem.isEnabled = activePetCount > 0
         menu.addItem(removeLastItem)
 
-        let removeAllItem = NSMenuItem(title: "Remove All Pets", action: #selector(PetsCoordinator.removeAllPets(_:)), keyEquivalent: "")
+        let removeAllItem = NSMenuItem(title: "모든 펫 제거", action: #selector(PetsCoordinator.removeAllPets(_:)), keyEquivalent: "")
         removeAllItem.target = target
         removeAllItem.isEnabled = activePetCount > 0
         menu.addItem(removeAllItem)
         menu.addItem(.separator())
 
-        let quitItem = NSMenuItem(title: "Quit LovaSlap-PET", action: #selector(PetsCoordinator.quitApplication(_:)), keyEquivalent: "q")
+        let quitItem = NSMenuItem(title: "LovaSlap-PET 종료", action: #selector(PetsCoordinator.quitApplication(_:)), keyEquivalent: "q")
         quitItem.target = target
         menu.addItem(quitItem)
 
         statusItem.menu = menu
-        statusItem.button?.toolTip = "LovaSlap-PET - \(activePetCount) pet(s)"
+        statusItem.button?.toolTip = "LovaSlap-PET - \(activePetCount)마리"
     }
 }

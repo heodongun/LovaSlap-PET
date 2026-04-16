@@ -46,7 +46,7 @@ extension PixelPetPreset {
     }
 
     static let miyeonClassic = PixelPetPreset(
-        name: "Miyeon Classic",
+        name: "미연 클래식",
         palette: PixelPetPalette(
             shadow: NSColor(hex: 0x000000, alpha: 0.22),
             hair: NSColor(hex: 0x412739),
@@ -69,7 +69,7 @@ extension PixelPetPreset {
     )
 
     static let midnightMint = PixelPetPreset(
-        name: "Midnight Mint",
+        name: "미드나이트 민트",
         palette: PixelPetPalette(
             shadow: NSColor(hex: 0x000000, alpha: 0.22),
             hair: NSColor(hex: 0x24374A),
@@ -92,7 +92,7 @@ extension PixelPetPreset {
     )
 
     static let sunsetPeach = PixelPetPreset(
-        name: "Sunset Peach",
+        name: "선셋 피치",
         palette: PixelPetPalette(
             shadow: NSColor(hex: 0x000000, alpha: 0.22),
             hair: NSColor(hex: 0x5A3240),

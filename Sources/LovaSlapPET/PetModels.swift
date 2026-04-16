@@ -145,11 +145,11 @@ enum PNGSequenceFolderLoaderError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .inaccessibleFolder:
-            return "Could not read the selected PNG sequence folder."
+            return "선택한 PNG 시퀀스 폴더를 읽을 수 없습니다."
         case .missingPNGFrames:
-            return "The selected folder does not contain any PNG frames."
+            return "선택한 폴더에 PNG 프레임이 없습니다."
         case let .unreadablePNGFrame(fileName):
-            return "Could not load PNG frame \(fileName)."
+            return "PNG 프레임 \(fileName)을 불러올 수 없습니다."
         }
     }
 }

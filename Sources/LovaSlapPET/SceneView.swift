@@ -46,14 +46,8 @@ final class GameSceneView: NSView {
         let characterView: NSView
         if let pixelCharacterView {
             characterView = pixelCharacterView
-            pixelCharacterView.onSlap = { [weak self] in
-                self?.triggerSharedSlap()
-            }
         } else if let pngSequenceCharacterView {
             characterView = pngSequenceCharacterView
-            pngSequenceCharacterView.onSlap = { [weak self] in
-                self?.triggerSharedSlap()
-            }
         } else {
             return
         }
@@ -106,8 +100,6 @@ final class GameSceneView: NSView {
 
 @MainActor
 final class PNGSequenceCharacterView: NSView {
-    var onSlap: (() -> Void)?
-
     private let sequence: PNGSequencePetAsset
     private var currentFrame: NSImage?
     private var reaction = ReactionVisual(
@@ -131,14 +123,6 @@ final class PNGSequenceCharacterView: NSView {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         nil
-    }
-
-    override func acceptsFirstMouse(for event: NSEvent?) -> Bool {
-        true
-    }
-
-    override func mouseDown(with event: NSEvent) {
-        onSlap?()
     }
 
     func update(reaction: ReactionVisual, time: TimeInterval) {
@@ -192,8 +176,6 @@ final class PNGSequenceCharacterView: NSView {
 
 @MainActor
 final class PixelCharacterView: NSView {
-    var onSlap: (() -> Void)?
-
     private var preset: PixelPetPreset = .defaultPreset
     private var reaction = ReactionVisual(
         spriteOffset: .zero,
@@ -214,14 +196,6 @@ final class PixelCharacterView: NSView {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         nil
-    }
-
-    override func acceptsFirstMouse(for event: NSEvent?) -> Bool {
-        true
-    }
-
-    override func mouseDown(with event: NSEvent) {
-        onSlap?()
     }
 
     func update(preset: PixelPetPreset, reaction: ReactionVisual) {
